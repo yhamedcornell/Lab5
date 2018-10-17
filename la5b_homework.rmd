@@ -1,0 +1,70 @@
+---
+title: 'Lab Homework 5'
+author: "Huaian Yu"
+date: "Due OCT 17, 2018"
+output:
+  word_document: default
+  pdf_document:
+    fig_height: 3.5
+    fig_width: 3.5
+  html_document:
+    fig_height: 4.5
+    fig_width: 4.5
+---
+
+
+```{r,echo=FALSE}
+knitr::opts_chunk$set(cache=TRUE, error=TRUE, message=TRUE, warning=TRUE)
+```
+
+#Q1: Write a function that could simulate N rounds of the game and return the proportion of times you win the bet.
+```{r}
+gameFunction <- function(N){
+  results <- replicate(N,
+  {
+    x<-rbinom(4,1,1/6)
+    if(sum(x)>=1){
+    win<-TRUE
+    }
+    else{
+    win<-FALSE
+    }
+  })
+  winPortion <- sum(results==TRUE)/N
+  return(winPortion)
+}
+```
+#Test:
+```{r}
+N1 <- 1000
+N2 <- 10000
+winRate1<-gameFunction(N1)
+winRate2<-gameFunction(N1)
+cat(paste("When N equals 1000, the win rate is ",winRate1,". When N equals 10000, the win rate is ",winRate2))
+```
+
+#Q2: Write a function that will find the smallest element of a given vector.
+```{r}
+#note: the function "findSmallest" will return 2 numbers, the first number is the smallest element, and the second number is the index of that element. 
+findSmallest <- function(v){
+smallest<- v[1]
+location<-1
+  if(length(v)>1){
+    for(i in 2:length(v)){
+      if(smallest>v[i]){
+        smallest <- v[i]
+        location <- i
+      }
+    }
+  }
+return(c(smallest,location))
+}
+ 
+```
+
+#Test
+```{r}
+test1<-c(1,4,2,0,5)
+result1<-findSmallest(test1)
+cat(paste("The smallest element is ",result1[1]," and its index is", result1[2]))
+```
